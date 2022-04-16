@@ -57,7 +57,7 @@ defmodule ToReplace.Account.TokenGenerator do
     |> Repo.insert()
   end
 
-  defp sign_token(user_id, type), do: Phoenix.Token.sign(DAASWeb.Endpoint, type, user_id)
+  defp sign_token(user_id, type), do: Phoenix.Token.sign(ToReplaceWeb.Endpoint, type, user_id)
 
   defp easy_token(), do: Enum.random(100_000..999_999) |> Integer.to_string()
 end

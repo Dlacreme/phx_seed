@@ -1,5 +1,14 @@
-<main class="container">
-  <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>
-  <p class="alert alert-danger" role="alert"><%= get_flash(@conn, :error) %></p>
+<main>
+    <%= if get_flash(@conn, :info) != nil do %>
+    <p class="alert alert-info relative" role="alert"><%= get_flash(@conn, :info) %>
+    <%= Helpers.Action.icon_action "close", :flat, "close", class: "absolute xs top-0 right-0", onclick: "window.APP.dom.remove(this.parentNode);" %>
+    </p>
+    <% end %>
+
+    <%= if get_flash(@conn, :error) != nil do %>
+  <p class="alert alert-danger relative" role="alert"><%= get_flash(@conn, :error) %>
+  <%= Helpers.Action.icon_action "close", :flat, "close", class: "absolute xs top-0 right-0", onclick: "window.APP.dom.remove(this.parentNode);" %>
+  </p>
+  <% end %>
   <%= @inner_content %>
 </main>

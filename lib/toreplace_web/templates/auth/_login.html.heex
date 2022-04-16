@@ -1,0 +1,26 @@
+<div id="login" class="container flex">
+    <div class="flex-grow">
+        <h3 class="mb-12"><%= gettext "Déjà membre ? Connectez-vous !" %></h3>
+        <div class="flex flex-col pt-2">
+        <%= form_for @changeset, Routes.auth_path(@conn, :login) , fn f -> %>
+        <div class="flex flex-col">
+            <label for="email">
+                <%= gettext "Email" %>
+            </label>
+            <%= email_input f, :email, required: true, class: "mb-6", placeholder: gettext("hello@world.com") %>
+        </div>
+
+        <div class="flex flex-col">
+            <label for="password">
+                <%= gettext "Mot de passe" %>
+            </label>
+            <%= password_input f, :password, required: true, class: "mb-6", placeholder: "******"  %>
+        </div>
+
+            <div class="flex justify-end mt-8 mr-8">
+                <%= Helpers.Action.icon_button gettext("Se connecter"), :primary, "login" %>
+            </div>
+        <% end %>
+        </div>
+    </div>
+</div>

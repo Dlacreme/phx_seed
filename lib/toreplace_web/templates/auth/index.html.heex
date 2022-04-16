@@ -1,0 +1,11 @@
+<div class="container">
+    <div class="flex flex-col md:flex-row items-center md:items-start md:divide-x md:mt-8">
+        <div class="w-1/2">
+            <%= render "_login.html", conn: @conn, changeset: @login_changeset %>
+        </div>
+
+        <div class="w-1/2">
+            <%= render "_register.html", conn: @conn, changeset: @register_changeset %>
+        </div>
+    </div>
+</div>

@@ -45,6 +45,7 @@ defmodule ToReplace.MixProject do
       # Mailing
       {:swoosh, "~> 1.3"},
       {:phoenix_swoosh, "~> 1.0"},
+      {:finch, "~> 0.10"},
       # Format & validation
       {:bcrypt_elixir, "~> 2.0"},
       {:jason, "~> 1.2"},
@@ -72,7 +73,12 @@ defmodule ToReplace.MixProject do
       "ecto.setup": ["ecto.create", "ecto.migrate", "run priv/repo/seeds.exs"],
       "ecto.reset": ["ecto.drop", "ecto.setup"],
       test: ["ecto.create --quiet", "ecto.migrate --quiet", "test"],
-      "assets.deploy": ["esbuild default --minify", "phx.digest"]
+      "assets.deploy": [
+        "tailwind default --minify",
+        "esbuild default --minify",
+        "sass default --no-source-map --style=compressed",
+        "phx.digest"
+      ]
     ]
   end
 end

@@ -20,26 +20,46 @@ config :toreplace, ToReplaceWeb.Endpoint,
   live_view: [signing_salt: "RMIqiEJO"]
 
 # Configures the mailer
-#
-# By default it uses the "Local" adapter which stores the emails
-# locally. You can see the emails in your browser, at "/dev/mailbox".
-#
-# For production it's recommended to configure a different adapter
-# at the `config/runtime.exs`.
-config :toreplace, ToReplace.Mailer, adapter: Swoosh.Adapters.Local
+config :toreplace, ToReplace.Mailer,
+  adapter: Swoosh.Adapters.Mailgun,
+  api_key: System.get_env("MAILER_SECRET_KEY", "xxx"),
+  domain: System.get_env("MAILER_DOMAIN", "yyy")
 
 # Swoosh API client is needed for adapters other than SMTP.
-config :swoosh, :api_client, false
+config :swoosh, :api_client, Swoosh.ApiClient.Finch
 
 # Configure esbuild (the version is required)
 config :esbuild,
   version: "0.13.5",
   default: [
     args:
-      ~w(js/app.js --bundle --target=es2017 --outdir=../priv/static/assets --external:/fonts/* --external:/images/*),
+      ~w(ts/app.ts --bundle --target=es2017 --outdir=../priv/static/assets --external:/fonts/* --external:/images/*),
     cd: Path.expand("../assets", __DIR__),
     env: %{"NODE_PATH" => Path.expand("../deps", __DIR__)}
   ]
+
+config :dart_sass,
+  version: "1.49.0",
+  default: [
+    args: ~w(scss/app.scss ../priv/static/assets/app.css),
+    cd: Path.expand("../assets", __DIR__)
+  ]
+
+config :tailwind,
+  version: "3.0.23",
+  default: [
+    args: ~w(
+ --config=tailwind.config.js
+ --input=scss/tailwind.css
+ --output=../priv/static/assets/tailwind.css
+ ),
+    cd: Path.expand("../assets", __DIR__)
+  ]
+
+config :cors_plug,
+  origin: ["*"],
+  max_age: 86400,
+  methods: ["GET", "POST"]
 
 # Configures Elixir's Logger
 config :logger, :console,

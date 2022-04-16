@@ -98,6 +98,8 @@ defmodule ToReplaceWeb do
       import ToReplaceWeb.ErrorHelpers
       import ToReplaceWeb.Gettext
       alias ToReplaceWeb.Router.Helpers, as: Routes
+      alias ToReplaceWeb.Helpers
+      import ToReplaceWeb.Components.{List, Metric, Confirmation}
     end
   end
 

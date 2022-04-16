@@ -1,0 +1,64 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+// Global
+@import "./variables";
+@import "./mixins";
+@import "./phoenix";
+@import "./helpers";
+@import "./form";
+// Pages
+@import "./auth";
+
+html, body {
+  height: 100%;
+  width: 100%;
+}
+
+body {
+  @include flexbox();
+  @include flex-direction(column);
+
+  main {
+    flex-grow: 1;
+  }
+}
+
+main .container:first-of-type {
+  padding: 20px;
+  height: 100%;
+}
+
+.container {
+  max-width: 1240px;
+  margin: auto;
+}
+
+.title {
+  font-weight: 500;
+  font-size: 1.5em;
+}
+
+.alert {
+  position: absolute;
+  top: 130px;
+  left: 0;
+  margin: auto;
+  right: 0;
+  max-width: 1240px;
+}
+
+.transition {
+  transition: all linear 100ms;
+}
+
+.confirmation-icon-span {
+  max-width: 24px;
+  font-size: 1em;
+  margin-right: 2px;
+  margin-top: 4px;
+  cursor: pointer;
+  i {
+    font-size: 1em;
+  }
+}

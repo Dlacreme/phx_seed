@@ -1,0 +1,50 @@
+
+label {
+  font-weight: 500;
+  color: $color-primary;
+}
+
+input, textarea {
+  border: 1px solid $color-primary;
+  border-radius: 0.25rem;
+  padding: 8px 12px;
+}
+
+.button {
+  height: 42px;
+  padding: 0 16px;
+  @include flexbox();
+  @include align-items(center);
+  border-radius: 0.25rem;
+
+  i {
+    color: white;
+  }
+}
+
+.button.flat {
+  border: none;
+}
+
+.button.primary {
+  background-color: $color-primary;
+  color: white;
+  i {
+    color: white;
+  }
+}
+
+.button.xs {
+  height: 24px;
+  min-width: 24px;
+  padding: 0 4px;
+  font-size: 0.9em;
+
+  i {
+    font-size: 20px;
+  }
+}
+
+.button.flat {
+  box-shadow: none !important;
+}
