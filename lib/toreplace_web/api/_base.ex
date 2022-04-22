@@ -1,4 +1,4 @@
-defmodule ToReplaceWeb.Controllers.Api.Base do
+defmodule ToReplaceWeb.Api.Base do
   @moduledoc """
   Main controller - provider common helpers
   """
@@ -10,8 +10,7 @@ defmodule ToReplaceWeb.Controllers.Api.Base do
 
       plug :put_view,
            Atom.to_string(__MODULE__)
-           |> String.replace(".Controllers.", ".")
-           |> Kernel.<>("View")
+           |> String.replace(".Api.", ".Api.Views.")
            |> String.to_atom()
 
       def error(conn, status, code, message) do
@@ -22,12 +21,24 @@ defmodule ToReplaceWeb.Controllers.Api.Base do
         |> halt()
       end
 
+      def ok(conn) do
+        conn |> json(%{"code" => "success", "message" => "ok"})
+      end
+
       def invalid(conn, code, message) do
         conn |> error(400, code, message) |> halt()
       end
 
+      def unauthorized(conn) do
+        conn |> unauthorized(:access_denied, "Unauthorized")
+      end
+
       def unauthorized(conn, code, message) do
         conn |> error(401, code, message) |> halt()
+      end
+
+      def not_found(conn) do
+        conn |> not_found(:resource_not_found, "Resource not found")
       end
 
       def not_found(conn, code, message) do

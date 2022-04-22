@@ -30,6 +30,11 @@ defmodule ToReplaceWeb.Router do
 
   scope "/api", ToReplaceWeb.Api do
     pipe_through :api
+
+    get "/me", Auth, :me
+    post "/login", Auth, :login
+    post "/register", Auth, :register
+    delete "/logout", Auth, :logout
   end
 
   scope "/admin", TTWeb do

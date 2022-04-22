@@ -5,11 +5,24 @@ defmodule ToReplace.Account do
 
   def create(user_info) do
     with {:ok, %UserProfile{id: profile_id}} <- Repo.insert(%UserProfile{}),
-         changeset <- User.changeset(%User{}, Map.merge(user_info, %{profile_id: profile_id})),
-         {:ok, user} <- Repo.insert(changeset) do
+         changeset <-
+           User.changeset(
+             %User{},
+             Map.merge(user_info, %{"profile_id" => profile_id, "type_id" => "user"})
+           ),
+         {:ok, user} <- Repo.insert(changeset),
+         any <- send_welcome_email(user) do
+      IO.puts("ANY > #{inspect(any)}")
       {:ok, user}
     else
       err -> err
     end
+  end
+
+  defp send_welcome_email(%User{email: email} = user) do
+    %ToReplace.Notification.Recipient{
+      email: email
+    }
+    |> ToReplace.Notification.send("to_replace - Welcome", "register.html", %{user: user})
   end
 end
