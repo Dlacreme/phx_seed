@@ -1,6 +1,7 @@
 defmodule ToReplaceWeb.Router do
   use ToReplaceWeb, :router
   import ToReplaceWeb.Controllers.Auth
+  import ToReplaceWeb.Api.Auth
 
   pipeline :browser do
     plug :accepts, ["html"]
@@ -9,12 +10,13 @@ defmodule ToReplaceWeb.Router do
     plug :put_root_layout, {ToReplaceWeb.LayoutView, :root}
     plug :protect_from_forgery
     plug :put_secure_browser_headers
-    plug :fetch_current_user
+    plug :fetch_current_user_from_cookies
   end
 
   pipeline :api do
     plug CORSPlug
     plug :accepts, ["json"]
+    plug :fetch_current_user_from_headers
   end
 
   scope "/", ToReplaceWeb do

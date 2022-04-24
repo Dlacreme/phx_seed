@@ -56,3 +56,12 @@ defmodule ToReplace.Account.User do
     end
   end
 end
+
+defimpl Jason.Encoder, for: ToReplace.Account.User do
+  def encode(value, opts) do
+    Jason.Encode.map(
+      Map.take(value, [:id, :email]),
+      opts
+    )
+  end
+end

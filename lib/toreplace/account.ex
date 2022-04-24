@@ -2,6 +2,7 @@ defmodule ToReplace.Account do
   alias ToReplace.Repo
   alias ToReplace.Account.User
   alias ToReplace.Account.UserProfile
+  import Ecto.Query, only: [from: 2]
 
   def create(user_info) do
     with {:ok, %UserProfile{id: profile_id}} <- Repo.insert(%UserProfile{}),
@@ -17,6 +18,11 @@ defmodule ToReplace.Account do
     else
       err -> err
     end
+  end
+
+  def get_by_id(id) do
+    from(u in User, where: u.id == ^id, join: u in assoc(u, :profile))
+    |> Repo.one()
   end
 
   defp send_welcome_email(%User{email: email} = user) do

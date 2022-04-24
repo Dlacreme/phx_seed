@@ -17,7 +17,7 @@ defmodule ToReplaceWeb.Api.Auth do
   def register(conn, %{"email" => _email, "password" => _password} = user_info) do
     case Account.create(user_info) do
       {:ok, user} ->
-        conn |> render("auth.json", %{user: user, token: "xxx"})
+        conn |> login(user_info)
 
       err ->
         IO.puts("ERR > #{inspect(err)}")
@@ -44,5 +44,31 @@ defmodule ToReplaceWeb.Api.Auth do
 
   def logout(conn, _params) do
     conn |> ok()
+  end
+
+  def fetch_current_user_from_headers(conn, _opts) do
+    with {:ok, token} <- retrieve_token(get_req_header(conn, "authorization")),
+         token_instance = %ToReplace.Account.Token{} <-
+           ToReplace.Account.Token.get_by_token(token),
+         {:ok, user} <-
+           fetch_user(token_instance.user_id) do
+      assign(conn, :current_user, user)
+    else
+      _ ->
+        assign(conn, :current_user, nil)
+    end
+  end
+
+  defp retrieve_token(["Bearer " <> token]) do
+    {:ok, token}
+  end
+
+  defp retrieve_token(_), do: nil
+
+  defp fetch_user(user_id) do
+    case ToReplace.Account.get_by_id(user_id) do
+      nil -> {:error, nil}
+      user -> {:ok, user}
+    end
   end
 end

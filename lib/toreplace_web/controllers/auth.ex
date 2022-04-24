@@ -87,7 +87,7 @@ defmodule ToReplaceWeb.Controllers.Auth do
   end
 
   # PLUGS
-  def fetch_current_user(conn, _opts) do
+  def fetch_current_user_from_cookies(conn, _opts) do
     {conn, token} = conn |> retrieve_token()
 
     if token != nil do
